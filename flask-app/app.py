@@ -45,6 +45,7 @@ def login():
 # Anyone can access dashboard without logging in
 @app.route('/dashboard')
 def dashboard():
+    ## Bug fix for authentication bug
     if 'email' not in session:
         return redirect(url_for('login'))
     
@@ -82,6 +83,8 @@ def get_files():
     #             'date': file['date'],
     #             'user_name': file_user['name'] if file_user else 'Unknown'
     #         })
+
+    ## Bug fix for N+1 query pattern bug
     file_user = [
         {
             'id': file['id'],
@@ -128,6 +131,7 @@ def upload():
     
     # return 'Invalid filename', 400
 
+    ## Bug fix for valid filename bug
     if not valid_filename(filename):
         return 'Invalid file type', 400
 
